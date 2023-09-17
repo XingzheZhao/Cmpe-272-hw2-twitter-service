@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter Service Homework</title>
+</head>
+<body>
+    {% if condition%}
+    <h1>Authorization</h1>
+    <div>{{ask_redir|safe}}</div>
+    <div>
+        <form method="POST" action="/get_pin">
+            <label for="pin_number">Enter you PIN here</label>
+            <input type="text" name="pin_number">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {% else %}
+    <h1>Create or Delete a Tweet</h1>
+    <form method="POST" action="/create_tweet">
+        <label for="tweet_text">Create a Tweet:</label>
+        <input type="text" name="tweet_text">
+        <button type="submit">Create</button>
+    </form>
+    <form method="POST" action="/delete_tweet">
+        <label for="tweet_id">Delete a Tweet (by ID):</label>
+        <input type="text" name="tweet_id">
+        <button type="submit">Delete</button>
+    </form>
+    {% endif %}
+</body>
+</html>
