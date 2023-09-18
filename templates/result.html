@@ -5,7 +5,26 @@
 </head>
 <body>
     <h1>Twitter Ads API Result</h1>
-    <p>{{ result }}</p>
+    {% if task_type == "create" %}
+    {% if condition == True %}
+    <strong>Tweet has been created!</strong><br>
+    <strong>Tweet: {{tweet}}</strong><br>
+    <strong>Tweet ID: {{id}}</strong>
+    {% else %}
+    <strong>{{result}}</strong><br>
+    <strong>Tweet has not been created!</strong>
+    {% endif %}
+    {% else %}
+    {% if condition == True %}
+    <strong>Tweet has been deleted!</strong><br>
+    <strong>Tweet ID: {{tweet_id}}</strong>
+    {% else %}
+    <strong>{{result}}</strong><br>
+    <strong>Tweet has not been deleted!</strong>
+    {% endif %}
+    {% endif %}
+    <br>
+    <br>
     <a href="/">Back to Home</a>
 </body>
 </html>
