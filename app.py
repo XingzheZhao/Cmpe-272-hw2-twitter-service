@@ -113,7 +113,7 @@ def create_tweet():
         tweet = json.dumps(json_response['data']['text'])
         return render_template('result.html', task_type=task_type, condition=True, id=id, tweet=tweet)
 
-# Delete Tweet Function: Completed by: 
+# Delete Tweet Function: Completed by: Markus Valvur
 # This function receive user input as tweet id, and delete the corresponding tweet
 # return: redirect to template/result.html page with corresponding information based on status
 @app.route('/delete_tweet', methods=['POST'])
