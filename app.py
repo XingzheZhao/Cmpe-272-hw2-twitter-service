@@ -1,6 +1,6 @@
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session
 from requests_oauthlib import OAuth1Session
-from twitter_service import TwitterAdsAPI
 import configparser
 import secrets
 import json
@@ -17,7 +17,9 @@ global twitter_api, flag
 flag = True
 
 # Get request token
-# References: 
+# References for authorization, create/delete tweets form Twitter Sample Code
+# SEE: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Manage-Tweets/create_tweet.py
+# SEE: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Manage-Tweets/delete_tweet.py
 request_token_url = "https://api.twitter.com/oauth/request_token?oauth_callback=oob&x_auth_access_type=write"
 oauth = OAuth1Session(consumer_key, client_secret=consumer_secret)
 
@@ -30,24 +32,21 @@ except ValueError:
 
 resource_owner_key = fetch_response.get("oauth_token")
 resource_owner_secret = fetch_response.get("oauth_token_secret")
-print("Got OAuth token: %s" % resource_owner_key)
 
 # Based urls
 base_authorization_url = "https://api.twitter.com/oauth/authorize"
 access_token_url = "https://api.twitter.com/oauth/access_token"
 
-
 authorization_url = oauth.authorization_url(base_authorization_url)
 
-ask_redirection = "Please go here and authorise %s" % authorization_url
+ask_redirection = "Please go here and authorise"
 
 @app.route('/')
 def index():
-    print(flag)
     if flag:
-        return render_template('index.html', ask_redir=ask_redirection, condition=True)
+        return render_template('index.html', ask_redir=ask_redirection, url=authorization_url, condition=True)
     else:
-        return render_template('index.html', ask_redir=None, condition=False) 
+        return render_template('index.html', condition=False) 
 
 @app.route('/get_pin', methods=['POST'])
 def get_pin():
@@ -69,7 +68,6 @@ def get_pin():
     flag = False
 
     # Make the request
-    
     oauth = OAuth1Session(
         consumer_key,
         client_secret=consumer_secret,
@@ -79,13 +77,8 @@ def get_pin():
 
     return redirect('/')
 
-# Initialize TwitterAdsAPI with the authenticated user's credentials
-# twitter_api = TwitterAdsAPI(consumer_key, consumer_secret, session['twitter_token'][0], session['twitter_token'][1])
-
-#TODO modify create_tweet from twitter service
 @app.route('/create_tweet', methods=['POST'])
 def create_tweet():
-
     text = request.form['tweet_text']
     payload = {"text": text}
     response = oauth.post(
@@ -95,34 +88,32 @@ def create_tweet():
     json_response = response.json()
     task_type = "create"
     if response.status_code != 201:
-        result = f"Error"
-        # result = json.dumps(json_response, indent=4, sort_keys=True)
-        return render_template('result.html', task_type=task_type, condition=False, result=result)
+        json_response = response.json() 
+        error_detail = json_response['detail']
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        return render_template('result.html', task_type=task_type, condition=False, time=current_time, err=error_detail)
     else:
         id = json.dumps(json_response['data']['id'])
         tweet = json.dumps(json_response['data']['text'])
         return render_template('result.html', task_type=task_type, condition=True, id=id, tweet=tweet)
 
-#TODO modify delete_tweet from twitter service
 @app.route('/delete_tweet', methods=['POST'])
 def delete_tweet():
-    # tweet_id = request.form['tweet_id']
-    # result = twitter_api.delete_tweet(tweet_id)
     tweet_id = request.form['tweet_id']
     response = oauth.delete(f"https://api.twitter.com/2/tweets/{tweet_id}")
 
     task_type = "delete"
     if response.status_code != 200:
-        result = f"Error"
-        return render_template('result.html', task_type=task_type, condition=False, result=result)
+        json_response = response.json() 
+        error_detail = json_response['detail']
+        return render_template('result.html', task_type=task_type, condition=False, err=error_detail)
     else:
         return render_template('result.html', task_type=task_type, condition=True, tweet_id=tweet_id)
 
-#TODO modify result from twitter service
 @app.route('/result')
 def result():
-    # result = request.args.get('result')
-    return render_template('result.html', result=result)
+    return render_template('result.html', task_type="none")
 
 if __name__ == '__main__':
     app.run(debug=True)
