@@ -1,26 +1,33 @@
+{# Completed by:  #}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Twitter Ads API Result</title>
 </head>
-<body>
+<body align="center">
     <h1>Twitter Ads API Result</h1>
-    {% if condition %}
-        {% if cflag %}
-            <h2>Tweet Created Successfully</h2>
-            <p>Tweet: {{tweet|safe}}</p>
-            <p>ID: {{id|safe}}</p>
+    {% if task_type == "create" %}
+        {% if condition == True %}
+            <strong>Tweet has been created!</strong><br>
+            <strong>Tweet: {{tweet}}</strong><br>
+            <strong>Tweet ID: {{id}}</strong><br>
         {% else %}
-            <h2>Tweet Deleted successfully</h2>
+            <strong>{{err}}</strong><br>
+            <strong>Tweet has not been created!</strong>
+        {% endif %}
+    {% elif task_type == "delete" %}
+        {% if condition == True %}
+            <strong>Tweet has been deleted!</strong><br>
+            <strong>Tweet ID: {{tweet_id}}</strong>
+        {% else %}
+            <strong>{{err}}</strong><br>
+            <strong>Tweet has not been deleted!</strong>
         {% endif %}
     {% else %}
-        {% if cflag %}
-            <h2>Error, tweet was not created successfully</h2>
-        {% else %}
-            <h2>Ettor, tweet was not deleted</h2>
-        {% endif %}
+        <strong>No Content</strong>
     {% endif %}
-    <p>{{ result }}</p>
+    <br>
+    <br>
     <a href="/">Back to Home</a>
 </body>
 </html>
