@@ -26,6 +26,10 @@
 ### Change the content in "config.ini" file to your consumer key and consumer secret
 <img width="331" alt="Screenshot 2023-09-17 at 8 25 35 PM" src="https://github.com/XingzheZhao/Cmpe-272-hw2-twitter-service/assets/98489037/856affb2-0d46-48ba-a128-cb29a5d9b474">
 
+## Run the app
+
+    python app.py
+
 
 
 
