@@ -1,27 +1,30 @@
+{# Completed by:  #}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Twitter Ads API Result</title>
 </head>
-<body>
+<body align="center">
     <h1>Twitter Ads API Result</h1>
     {% if task_type == "create" %}
-    {% if condition == True %}
-    <strong>Tweet has been created!</strong><br>
-    <strong>Tweet: {{tweet}}</strong><br>
-    <strong>Tweet ID: {{id}}</strong>
+        {% if condition == True %}
+            <strong>Tweet has been created!</strong><br>
+            <strong>Tweet: {{tweet}}</strong><br>
+            <strong>Tweet ID: {{id}}</strong><br>
+        {% else %}
+            <strong>{{err}}</strong><br>
+            <strong>Tweet has not been created!</strong>
+        {% endif %}
+    {% elif task_type == "delete" %}
+        {% if condition == True %}
+            <strong>Tweet has been deleted!</strong><br>
+            <strong>Tweet ID: {{tweet_id}}</strong>
+        {% else %}
+            <strong>{{err}}</strong><br>
+            <strong>Tweet has not been deleted!</strong>
+        {% endif %}
     {% else %}
-    <strong>{{result}}</strong><br>
-    <strong>Tweet has not been created!</strong>
-    {% endif %}
-    {% else %}
-    {% if condition == True %}
-    <strong>Tweet has been deleted!</strong><br>
-    <strong>Tweet ID: {{tweet_id}}</strong>
-    {% else %}
-    <strong>{{result}}</strong><br>
-    <strong>Tweet has not been deleted!</strong>
-    {% endif %}
+        <strong>No Content</strong>
     {% endif %}
     <br>
     <br>
