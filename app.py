@@ -91,7 +91,7 @@ def get_pin():
     # back to home page
     return redirect('/')
 
-# Create Tweet Function: Completed by: 
+# Create Tweet Function: Completed by: Sam Zhao
 # This function receive user input on tweet creation, and write a tweet for the user
 # return: redirect to template/result.html page with corresponding information based on status
 @app.route('/create_tweet', methods=['POST'])
