@@ -24,7 +24,7 @@
 ## In File Setup
 
 ### Change the content in "config.ini" file to your consumer key and consumer secret
-<img width="352" alt="Screenshot 2023-09-17 at 8 22 23 PM" src="https://github.com/XingzheZhao/Cmpe-272-hw2-twitter-service/assets/98489037/34ee8987-4e15-4d9f-afd3-81052358a574">
+<img width="331" alt="Screenshot 2023-09-17 at 8 25 35 PM" src="https://github.com/XingzheZhao/Cmpe-272-hw2-twitter-service/assets/98489037/856affb2-0d46-48ba-a128-cb29a5d9b474">
 
 
 
