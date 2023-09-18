@@ -129,7 +129,7 @@ def delete_tweet():
     else:
         return render_template('result.html', task_type=task_type, condition=True, tweet_id=tweet_id)
 
-# Result Route: Completed by: 
+# Result Route: Completed by: Markus Valvur
 # This function called the /templates/result.html page
 @app.route('/result')
 def result():
